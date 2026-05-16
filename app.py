@@ -123,7 +123,6 @@ with col2:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-ప్లే
 if st.button("🚀 Run AI Weather Analysis"):
     features = np.array([[pressure, maxtemp, temparature, mintemp, dewpoint, humidity, cloud, windspeed]])
     prediction = model.predict(features)[0]
