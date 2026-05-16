@@ -3,7 +3,7 @@ import pickle
 import numpy as np
 
 # 1. పేజీ కాన్ఫిగరేషన్
-st.set_page_config(page_title="Gemini Rain Predictor", page_icon="🌧️", layout="centered")
+st.set_page_config(page_title="Rain Predictor", page_icon="🌧️", layout="centered")
 
 # 2. Advanced CSS - జెమిని కలర్ థీమ్ & గ్లోయింగ్ ఎఫెక్ట్స్
 st.markdown("""
@@ -84,7 +84,7 @@ with open('rain_model.pkl', 'rb') as file:
     model = pickle.load(file)
 
 # 4. హెడర్ సెక్షన్
-st.markdown("<div class='gemini-title'>✨ Gemini Intelligence Weather App</div>", unsafe_allow_html=True)
+st.markdown("<div class='gemini-title'>✨ Intelligence Weather App</div>", unsafe_allow_html=True)
 st.markdown("<p class='sub-title'>Predicting Rainfall Probability with Machine Learning AI</p>", unsafe_allow_html=True)
 
 # 5. లేఅవుట్ Columns లో ఇన్పుట్స్ సెట్ చేయడం
@@ -131,7 +131,7 @@ if st.button("🚀 Run AI Weather Analysis"):
                 <h2 style='color:#f87171; margin:0;'>🌧️ Rain Forecasted!</h2>
                 <p style='color:#fca5a5; font-size:18px; margin-top:5px;'>AI Confidence Probability: <b>{prob:.2f}%</b></p>
                 <hr style='border-color:rgba(255,255,255,0.1);'>
-                <p style='color:#fef08a; margin:0;'>💡 <b>Gemini Tip:</b> High chance of precipitation. Keep an umbrella handy and plan your day accordingly!</p>
+                <p style='color:#fef08a; margin:0;'>💡 <b>Tip:</b> High chance of precipitation. Keep an umbrella handy and plan your day accordingly!</p>
             </div>
         """, unsafe_allow_html=True)
     else:
@@ -142,6 +142,6 @@ if st.button("🚀 Run AI Weather Analysis"):
                 <h2 style='color:#34d399; margin:0;'>☀️ Clear Skies!</h2>
                 <p style='color:#a7f3d0; font-size:18px; margin-top:5px;'>Probability of Rain: <b>{prob:.2f}%</b></p>
                 <hr style='border-color:rgba(255,255,255,0.1);'>
-                <p style='color:#fef08a; margin:0;'>💡 <b>Gemini Tip:</b> Weather looks absolutely beautiful and stable. Perfect day for outdoor work or travel!</p>
+                <p style='color:#fef08a; margin:0;'>💡 <b>Tip:</b> Weather looks absolutely beautiful and stable. Perfect day for outdoor work or travel!</p>
             </div>
         """, unsafe_allow_html=True)
