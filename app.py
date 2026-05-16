@@ -2,17 +2,16 @@ import streamlit as st
 import pickle
 import numpy as np
 
-st.set_page_config(page_title="Rain Predictor", page_icon="🌧️", layout="centered")
+# 1. పేజీ కాన్ఫిగరేషన్
+st.set_page_config(page_title="Gemini Rain Predictor", page_icon="🌧️", layout="centered")
 
-
+# 2. Advanced CSS - జెమిని కలర్ థీమ్ & గ్లోయింగ్ ఎఫెక్ట్స్
 st.markdown("""
     <style>
-
     [data-testid="stAppViewContainer"] {
         background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
         color: #f8fafc;
     }
-    
     .gemini-title {
         background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6);
         background-size: 300% auto;
@@ -25,18 +24,15 @@ st.markdown("""
         animation: shine 5s linear infinite;
         margin-bottom: 5px;
     }
-    
     @keyframes shine {
         to { background-position: 300% center; }
     }
-    
     .sub-title {
         text-align: center;
         color: #94a3b8;
         font-size: 16px;
         margin-bottom: 30px;
     }
-
     .glass-card {
         background: rgba(255, 255, 255, 0.03);
         backdrop-filter: blur(12px);
@@ -46,14 +42,10 @@ st.markdown("""
         box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         margin-bottom: 20px;
     }
-    
- 
     label, .stSlider p {
         color: #cbd5e1 !important;
         font-weight: 600 !important;
     }
-
-
     .stButton>button {
         background: linear-gradient(90deg, #2563eb, #7c3aed, #db2777) !important;
         color: white !important;
@@ -66,13 +58,10 @@ st.markdown("""
         box-shadow: 0px 0px 20px rgba(124, 58, 237, 0.6) !important;
         transition: all 0.4s ease !important;
     }
-    
     .stButton>button:hover {
         transform: translateY(-3px) !important;
         box-shadow: 0px 0px 30px rgba(219, 39, 119, 0.9) !important;
     }
-    
-    /* సక్సెస్ మరియు ఎర్రర్ బాక్స్ ల కస్టమ్ డిజైన్ */
     .result-rain {
         background: linear-gradient(135deg, #7f1d1d, #450a0a);
         border-left: 6px solid #ef4444;
@@ -90,32 +79,34 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# 3. మోడల్ ని లోడ్ చేయడం
 with open('rain_model.pkl', 'rb') as file:
     model = pickle.load(file)
 
-
-st.markdown("<div class='gemini-title'>✨ Intelligence Weather App</div>", unsafe_allow_html=True)
+# 4. హెడర్ సెక్షన్
+st.markdown("<div class='gemini-title'>✨ Gemini Intelligence Weather App</div>", unsafe_allow_html=True)
 st.markdown("<p class='sub-title'>Predicting Rainfall Probability with Machine Learning AI</p>", unsafe_allow_html=True)
 
+# 5. లేఅవుట్ Columns లో ఇన్పుట్స్ సెట్ చేయడం
 col1, col2 = st.columns(2)
 
 with col1:
     st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-    st.markdown("<h3 style='color:#60a5fa;'>🌡️ Temperature Control</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='color:#60a5fa; margin-top:0;'>🌡️ Temperature Control</h3>", unsafe_allow_html=True)
     maxtemp = st.number_input("Maximum Temperature (°C)", min_value=0.0, max_value=50.0, value=25.0)
     temparature = st.number_input("Average Temperature (°C)", min_value=0.0, max_value=50.0, value=20.0)
     mintemp = st.number_input("Minimum Temperature (°C)", min_value=0.0, max_value=50.0, value=15.0)
     st.markdown("</div>", unsafe_allow_html=True)
     
     st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-    st.markdown("<h3 style='color:#f472b6;'>💨 Wind & Dynamics</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='color:#f472b6; margin-top:0;'>💨 Wind & Dynamics</h3>", unsafe_allow_html=True)
     cloud = st.slider("Cloud Cover (%)", min_value=0, max_value=100, value=50)
     windspeed = st.number_input("Wind Speed (km/h)", min_value=0.0, max_value=150.0, value=15.0)
     st.markdown("</div>", unsafe_allow_html=True)
 
 with col2:
     st.markdown("<div class='glass-card' style='height: 100%;'>", unsafe_allow_html=True)
-    st.markdown("<h3 style='color:#c084fc;'>💧 Atmosphere & Pressure</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='color:#c084fc; margin-top:0;'>💧 Atmosphere & Pressure</h3>", unsafe_allow_html=True)
     pressure = st.number_input("Atmospheric Pressure (hPa)", min_value=900.0, max_value=1100.0, value=1015.0)
     dewpoint = st.number_input("Dew Point (°C)", min_value=-10.0, max_value=40.0, value=12.0)
     humidity = st.slider("Humidity (%)", min_value=0, max_value=100, value=70)
@@ -123,27 +114,34 @@ with col2:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
+# 6. ప్రెడిక్షన్ బటన్ & రిజల్ట్ డిస్ప్లే
 if st.button("🚀 Run AI Weather Analysis"):
+    # ఇన్పుట్ ఫీచర్స్ ని మోడల్ ట్రైనింగ్ ఆర్డర్ లో అరేంజ్ చేయడం
     features = np.array([[pressure, maxtemp, temparature, mintemp, dewpoint, humidity, cloud, windspeed]])
     prediction = model.predict(features)[0]
     
-    st.markdown("<br><br>", unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center; color: #8b5cf6;'>📊 Prediction Analysis</h2>", unsafe_allow_html=True)
     
     if prediction >= 0.5:
+        # ప్రాబబిలిటీ 100% దాటకుండా 1.0 కి రిస్ట్రిక్ట్ చేయడం
+        prob = min(prediction * 100, 100.0)
         st.markdown(f"""
             <div class='result-rain'>
                 <h2 style='color:#f87171; margin:0;'>🌧️ Rain Forecasted!</h2>
-                <p style='color:#fca5a5; font-size:18px; margin-top:5px;'>AI Confidence Probability: <b>{prediction*100:.2f}%</b></p>
+                <p style='color:#fca5a5; font-size:18px; margin-top:5px;'>AI Confidence Probability: <b>{prob:.2f}%</b></p>
                 <hr style='border-color:rgba(255,255,255,0.1);'>
-                <p style='color:#fef08a; margin:0;'>💡 <b> Tip:</b> High chance of precipitation. Keep an umbrella handy and plan your day accordingly!</p>
+                <p style='color:#fef08a; margin:0;'>💡 <b>Gemini Tip:</b> High chance of precipitation. Keep an umbrella handy and plan your day accordingly!</p>
             </div>
         """, unsafe_allow_html=True)
     else:
+        # ఒకవేళ నెగటివ్ వాల్యూస్ వస్తే 0 కి రిస్ట్రిక్ట్ చేయడం
+        prob = max(prediction * 100, 0.0)
         st.markdown(f"""
             <div class='result-clear'>
                 <h2 style='color:#34d399; margin:0;'>☀️ Clear Skies!</h2>
-                <p style='color:#a7f3d0; font-size:18px; margin-top:5px;'>Probability of Rain: <b>{prediction*100:.2f}%</b></p>
+                <p style='color:#a7f3d0; font-size:18px; margin-top:5px;'>Probability of Rain: <b>{prob:.2f}%</b></p>
                 <hr style='border-color:rgba(255,255,255,0.1);'>
-                <p style='color:#fef08a; margin:0;'>💡 <b> Tip:</b> Weather looks absolutely beautiful and stable. Perfect day for outdoor work or travel!</p>
+                <p style='color:#fef08a; margin:0;'>💡 <b>Gemini Tip:</b> Weather looks absolutely beautiful and stable. Perfect day for outdoor work or travel!</p>
             </div>
         """, unsafe_allow_html=True)
