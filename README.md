@@ -55,5 +55,5 @@ If you wish to run this weather intelligence system locally on your environment,
 
 1. **Clone the repository:**
    ```bash
-   git clone 
+   git clone https://github.com/Vyshnavi1429/Rainfall-Prediction-using-Multi-linear-Regression-Model.git
    cd rainfall-prediction-using-multi-linear-regression-model
