@@ -2,10 +2,10 @@ import streamlit as st
 import pickle
 import numpy as np
 
-# 1. పేజీ కాన్ఫిగరేషన్
+
 st.set_page_config(page_title="Rain Predictor", page_icon="🌧️", layout="centered")
 
-# 2. Advanced CSS - జెమిని కలర్ థీమ్ & గ్లోయింగ్ ఎఫెక్ట్స్
+# 2. Advanced CSS 
 st.markdown("""
     <style>
     [data-testid="stAppViewContainer"] {
@@ -79,15 +79,15 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 3. మోడల్ ని లోడ్ చేయడం
+
 with open('rain_model.pkl', 'rb') as file:
     model = pickle.load(file)
 
-# 4. హెడర్ సెక్షన్
+
 st.markdown("<div class='gemini-title'>✨ Intelligence Weather App</div>", unsafe_allow_html=True)
 st.markdown("<p class='sub-title'>Predicting Rainfall Probability with Machine Learning AI</p>", unsafe_allow_html=True)
 
-# 5. లేఅవుట్ Columns లో ఇన్పుట్స్ సెట్ చేయడం
+
 col1, col2 = st.columns(2)
 
 with col1:
@@ -114,9 +114,9 @@ with col2:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# 6. ప్రెడిక్షన్ బటన్ & రిజల్ట్ డిస్ప్లే
+
 if st.button("🚀 Run AI Weather Analysis"):
-    # ఇన్పుట్ ఫీచర్స్ ని మోడల్ ట్రైనింగ్ ఆర్డర్ లో అరేంజ్ చేయడం
+
     features = np.array([[pressure, maxtemp, temparature, mintemp, dewpoint, humidity, cloud, windspeed]])
     prediction = model.predict(features)[0]
     
@@ -124,7 +124,7 @@ if st.button("🚀 Run AI Weather Analysis"):
     st.markdown("<h2 style='text-align: center; color: #8b5cf6;'>📊 Prediction Analysis</h2>", unsafe_allow_html=True)
     
     if prediction >= 0.5:
-        # ప్రాబబిలిటీ 100% దాటకుండా 1.0 కి రిస్ట్రిక్ట్ చేయడం
+
         prob = min(prediction * 100, 100.0)
         st.markdown(f"""
             <div class='result-rain'>
@@ -135,7 +135,7 @@ if st.button("🚀 Run AI Weather Analysis"):
             </div>
         """, unsafe_allow_html=True)
     else:
-        # ఒకవేళ నెగటివ్ వాల్యూస్ వస్తే 0 కి రిస్ట్రిక్ట్ చేయడం
+
         prob = max(prediction * 100, 0.0)
         st.markdown(f"""
             <div class='result-clear'>
